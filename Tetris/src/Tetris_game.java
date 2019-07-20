@@ -1,6 +1,3 @@
-
-import java.applet.Applet;
-import java.applet.AudioClip;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -8,19 +5,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.FileInputStream;
 import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import sun.audio.*;
+
 
 public class Tetris_game {
-
     public static void main(String[] args) {
-        Music.play("D:\\2855.wav");
+        Music.play("src\\waiting for love.wav");
         final JFrame frame = new JFrame("Tetris Game");
         final GamePapel a = new GamePapel();
         frame.addKeyListener(a);
@@ -310,19 +306,15 @@ class GamePapel extends JPanel implements KeyListener {
     }
 }
 
+//here we change the music class to play the music of waiting for love
 class Music {
     static void play(String path) {
-        File file = new File(path);
-        URL url;
-        try {
-            url = file.toURL();
-            AudioClip clip = Applet.newAudioClip(url);
-            // clip.play();
-            clip.loop();
-        } catch (MalformedURLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
+      try {
+        FileInputStream fileau = new FileInputStream(path);
+        AudioStream as = new AudioStream(fileau);
+        AudioPlayer.player.start(as);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
 }
